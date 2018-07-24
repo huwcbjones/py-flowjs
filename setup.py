@@ -31,7 +31,7 @@ setup(
     name="flowjs",
     packages=["flowjs"],
     platforms=["any"],
-    version="0.1.0a3",
+    version="0.1.0",
     description="Python server implementation for flow.js upload library",
     long_description=long_description,
     author="Huw Jones",
@@ -41,7 +41,7 @@ setup(
     license=license_,
     classifiers=[
         "License :: OSI Approved :: MIT License",
-        "Development Status :: 3 - Alpha",
+        "Development Status :: 5 - Production/Stable",
         "Operating System :: OS Independent",
         "Programming Language :: Python :: 2",
         "Intended Audience :: Developers",

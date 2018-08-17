@@ -1,11 +1,10 @@
 import abc
 
 
-class IRequest(object):
-    __metaclass__ = abc.ABCMeta
+class IRequest(abc.ABC):
 
     def is_post(self):
-        # type: (None) -> bool
+        # type: () -> bool
         """
         Returns true if the HTTP method was POST
         :return:
@@ -13,7 +12,7 @@ class IRequest(object):
         pass
 
     def is_get(self):
-        # type: (None) -> bool
+        # type: () -> bool
         """
         Returns true if the HTTP method was GET
         :return:
@@ -21,7 +20,7 @@ class IRequest(object):
         pass
 
     def get_file_name(self):
-        # type: (None) -> str
+        # type: () -> str
         """
         Get uploaded file name
         :return:
@@ -29,7 +28,7 @@ class IRequest(object):
         pass
 
     def get_total_size(self):
-        # type: (None) -> int
+        # type: () -> int
         """
         Get total file size in bytes
         :return:
@@ -37,7 +36,7 @@ class IRequest(object):
         pass
 
     def get_identifier(self):
-        # type: (None) -> str
+        # type: () -> str
         """
         Get file unique identifier
         :return:
@@ -45,7 +44,7 @@ class IRequest(object):
         pass
 
     def get_relative_path(self):
-        # type: (None) -> str
+        # type: () -> str
         """
         Get file relative path
         :return:
@@ -53,7 +52,7 @@ class IRequest(object):
         pass
 
     def get_total_chunks(self):
-        # type: (None) -> int
+        # type: () -> int
         """
         Get total chunks number
         :return:
@@ -61,7 +60,7 @@ class IRequest(object):
         pass
 
     def get_default_chunk_size(self):
-        # type: (None) -> int
+        # type: () -> int
         """
         Get default chunk size
         :return:
@@ -69,7 +68,7 @@ class IRequest(object):
         pass
 
     def get_current_chunk_number(self):
-        # type: (None) -> int
+        # type: () -> int
         """
         Get current uploaded chunk number, starts with 1
         :return:
@@ -77,7 +76,7 @@ class IRequest(object):
         pass
 
     def get_current_chunk_size(self):
-        # type: (None) -> int
+        # type: () -> int
         """
         Get current uploaded chunk size
         :return:
@@ -85,7 +84,7 @@ class IRequest(object):
         pass
 
     def is_fusty_flow_request(self):
-        # type: (None) -> bool
+        # type: () -> bool
         """
         Checks if request is formed by fusty flow
         :return:
@@ -93,7 +92,7 @@ class IRequest(object):
         pass
 
     def get_file(self):
-        # type: (None) -> IFile or None
+        # type: () -> IFile or None
         """
         Return files
         :return:
@@ -101,8 +100,7 @@ class IRequest(object):
         pass
 
 
-class IConfig(object):
-    __metaclass__ = abc.ABCMeta
+class IConfig(abc.ABC):
 
     def set_temp_dir(self, path):
         # type: (str) -> None
@@ -114,7 +112,7 @@ class IConfig(object):
         pass
 
     def get_temp_dir(self):
-        # type: (None) -> str
+        # type: () -> str
         """
         Get path to temporary directory for chunks storage
         :return:
@@ -131,7 +129,7 @@ class IConfig(object):
         pass
 
     def get_hash_name_callback(self):
-        # type: (None) -> callable
+        # type: () -> callable
         """
         Generate chunk identifier
         :rtype: function
@@ -140,20 +138,20 @@ class IConfig(object):
         pass
 
     def set_preprocess_callback(self, callback):
+        # type: (callable) -> None
         """
         Callback to pre-process chunk
         :param callback:
         :return:
         """
-        # type: callable -> None
         pass
 
     def get_preprocess_callback(self):
+        # type: () -> callable
         """
         Callback to pre-process chunk
         :return:
         """
-        # type: None -> callable
         pass
 
     def set_delete_chunks_on_save(self, delete):
@@ -166,7 +164,7 @@ class IConfig(object):
         pass
 
     def get_delete_chunks_on_save(self):
-        # type: (None) -> bool
+        # type: () -> bool
         """
         Delete chunks on save
         :return:
@@ -174,11 +172,10 @@ class IConfig(object):
         pass
 
 
-class IFile(object):
-    __metaclass__ = abc.ABCMeta
+class IFile(abc.ABC):
 
     def get_tmp_name(self):
-        # type: (None) -> str
+        # type: () -> str
         """
         Return temporary file name
         :return:
@@ -186,7 +183,7 @@ class IFile(object):
         pass
 
     def get_size(self):
-        # type: (None) -> int
+        # type: () -> int
         """
         Return file size in bytes
         :return:
@@ -194,12 +191,12 @@ class IFile(object):
         pass
 
     def get_error(self):
-        # type: (None) -> str
+        # type: () -> str
 
         pass
 
     def get_name(self):
-        # type: (None) -> str
+        # type: () -> str
         """
         Return the name of the file (provided by the client, be wary)
         :return:
@@ -207,16 +204,9 @@ class IFile(object):
         pass
 
     def get_type(self):
-        # type: (None) -> str
+        # type: () -> str
         """
         Return the MIME type of the file (provided by the client, be wary)
         :return:
         """
         pass
-
-
-
-
-
-
-

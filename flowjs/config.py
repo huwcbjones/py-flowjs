@@ -1,8 +1,8 @@
 from hashlib import sha1
 from tempfile import gettempdir
 
-from .interfaces import IConfig
-from .interfaces import IRequest
+from flowjs.interfaces import IConfig
+from flowjs.interfaces import IRequest
 
 
 class Config(IConfig):
@@ -28,7 +28,7 @@ class Config(IConfig):
         self._config['tempDir'] = path
 
     def get_temp_dir(self):
-        # type: (None) -> str
+        # type: () -> str
         """
         Get path to temporary directory for chunks storage
         :return:
@@ -45,7 +45,7 @@ class Config(IConfig):
         self._config['hashNameCallback'] = callback
 
     def get_hash_name_callback(self):
-        # type: (None) -> callable
+        # type: () -> callable
         """
         Generate chunk identifier
         :rtype: function
@@ -54,20 +54,20 @@ class Config(IConfig):
         return self._get_config('hashNameCallback') or hash_name_callback
 
     def set_preprocess_callback(self, callback):
+        # type: (callable) -> None
         """
         Callback to pre-process chunk
         :param callback:
         :return:
         """
-        # type: callable -> None
         self._config['preprocessCallback'] = callback
 
     def get_preprocess_callback(self):
+        # type: () -> callable
         """
         Callback to pre-process chunk
         :return:
         """
-        # type: None -> callable
         return self._get_config('preprocessCallback') or None
 
     def set_delete_chunks_on_save(self, delete):
@@ -80,7 +80,7 @@ class Config(IConfig):
         self._config['deleteChunksOnSave'] = delete
 
     def get_delete_chunks_on_save(self):
-        # type: (None) -> bool
+        # type: () -> bool
         """
         Delete chunks on save
 
@@ -97,5 +97,5 @@ def hash_name_callback(request):
     :return:
     """
     s = sha1()
-    s.update(request.get_identifier())
+    s.update(request.get_identifier().encode("utf-8"))
     return s.hexdigest()

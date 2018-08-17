@@ -1,48 +1,47 @@
 import os
 from tempfile import NamedTemporaryFile
 
-from .interfaces import IRequest, IFile
+from flowjs.interfaces import IRequest, IFile
 
 
-class CycloneRequest(IRequest):
+class TornadoRequest(IRequest):
 
-    def __init__(self, request):
-        self._request = request
+    def __init__(self, request_handler):
+        self._request = request_handler
 
         self._file = None
-        if len(self._request.files) != 0:
-            self._file = File(self._request.files['file'][0])
+        if len(self._request.request.files) != 0:
+            self._file = File(self._request.request.files['file'][0])
 
-    def _get_param(self, key):
-        if key not in self._request.arguments:
-            return None
-        if len(self._request.arguments[key]) == 0:
-            return None
-        return self._request.arguments[key][0]
+    def _get_config(self, key):
+        if self.is_post():
+            return self._request.get_argument(key)
+        else:
+            return self._request.get_query_argument(key)
 
     def get_file_name(self):
-        return self._get_param('flowFilename')
+        return self._get_config('flowFilename')
 
     def get_total_size(self):
-        return int(self._get_param('flowTotalSize'))
+        return int(self._get_config('flowTotalSize'))
 
     def get_identifier(self):
-        return self._get_param('flowIdentifier')
+        return self._get_config('flowIdentifier')
 
     def get_relative_path(self):
-        return self._get_param('flowRelativePath')
+        return self._get_config('flowRelativePath')
 
     def get_total_chunks(self):
-        return int(self._get_param('flowTotalChunks'))
+        return int(self._get_config('flowTotalChunks'))
 
     def get_default_chunk_size(self):
-        return int(self._get_param('flowChunkSize'))
+        return int(self._get_config('flowChunkSize'))
 
     def get_current_chunk_number(self):
-        return int(self._get_param('flowChunkNumber'))
+        return int(self._get_config('flowChunkNumber'))
 
     def get_current_chunk_size(self):
-        return int(self._get_param('flowCurrentChunkSize'))
+        return int(self._get_config('flowCurrentChunkSize'))
 
     def is_fusty_flow_request(self):
         return False
@@ -51,10 +50,10 @@ class CycloneRequest(IRequest):
         return self._file
 
     def is_post(self):
-        return self._request.method == "POST"
+        return self._request.request.method == "POST"
 
     def is_get(self):
-        return self._request.method == "GET"
+        return self._request.request.method == "GET"
 
 
 class File(IFile):

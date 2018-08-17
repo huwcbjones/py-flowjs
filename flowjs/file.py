@@ -3,7 +3,7 @@ import os
 
 from filelock import FileLock
 
-from .interfaces import IRequest, IConfig, IFile
+from flowjs.interfaces import IRequest, IConfig, IFile
 
 
 class ChunkedFile:
@@ -23,7 +23,7 @@ class ChunkedFile:
         self._identifier = hash_name_callback(request)
 
     def get_identifier(self):
-        # type: (None) -> str
+        # type: () -> str
         """
         Get file identifier
         :return:
@@ -40,7 +40,7 @@ class ChunkedFile:
         return os.path.join(self._config.get_temp_dir(), self._identifier + "_" + str(index))
 
     def check_chunk(self):
-        # type: (None) -> bool
+        # type: () -> bool
         """
         Check if chunk exist
         :return:
@@ -54,7 +54,7 @@ class ChunkedFile:
         return True
 
     def validate_chunk(self):
-        # type: (None) -> bool
+        # type: () -> bool
         file_ = self._request.get_file()  # type: IFile
         logging.debug("validate_chunk: temp_name: {}/file_size: {}".format(file_.get_tmp_name(), file_.get_size()))
         if file_ is None:
@@ -71,7 +71,7 @@ class ChunkedFile:
         return True
 
     def save_chunk(self):
-        # type: (None) -> bool
+        # type: () -> bool
         file_ = self._request.get_file()
         chunk_path = self.get_chunk_path(self._request.get_current_chunk_number())
         os.rename(file_.get_tmp_name(), chunk_path)
@@ -79,7 +79,7 @@ class ChunkedFile:
         return True
 
     def validate_file(self):
-        # type: (None) -> bool
+        # type: () -> bool
         """
         Check if file upload is complete
         :return:
@@ -102,7 +102,7 @@ class ChunkedFile:
         return True
 
     def save(self, destination, timeout=5):
-        # type: (str) -> bool
+        # type: (str, int) -> bool
         """
         Merge all chunks to single file
         :param timeout: Timeout to acquire lock
@@ -117,7 +117,7 @@ class ChunkedFile:
                 pre_process_chunk = self._config.get_preprocess_callback()
                 for i in range(1, total_chunks + 1):
                     file_ = self.get_chunk_path(i)
-                    with open(file_, "r") as chunk:
+                    with open(file_, "rb") as chunk:
                         if pre_process_chunk is not None:
                             pre_process_chunk(chunk)
                         fh.write(chunk.read())
@@ -127,7 +127,7 @@ class ChunkedFile:
         return True
 
     def delete_chunks(self):
-        # type: (None) -> None
+        # type: () -> None
         """
         Delete chunks dir
         :return:

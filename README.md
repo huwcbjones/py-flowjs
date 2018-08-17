@@ -8,7 +8,7 @@ Python library for handling chunk uploads (based on flow-php-server). Library co
  * Validating uploaded chunks
  * Merging all chunks to a single file
 
-The library currently only supports Cyclone, but it is trivial to implement interfaces for other web servers (flask, etc).
+The library currently only supports Tornado, but it is trivial to implement interfaces for other web servers (flask, etc).
 
 This library is compatible with HTML5 file upload library: https://github.com/flowjs/flow.js
 
@@ -28,7 +28,7 @@ import os
 import flowjs
 
 config = flowjs.Config()
-request = flowjs.requests.CycloneRequest(cyclone_http_request)
+request = flowjs.requests.TornadoRequest(tornado_http_request)
 upload_directory = "/path/to/final/upload/directory"
 upload_file_name = uuid.uuid1().hex + "_" + request.get_file_name()
 upload_path = os.path.join(upload_directory, upload_file_name)

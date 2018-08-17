@@ -1,8 +1,6 @@
-import requests
-from file import ChunkedFile
-from interfaces import IConfig, IRequest
-from config import Config
-
+from flowjs.file import ChunkedFile
+from flowjs.interfaces import IConfig, IRequest
+from flowjs.config import Config
 
 name = "flowjs"
 
